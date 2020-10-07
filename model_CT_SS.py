@@ -561,7 +561,9 @@ class Unet_CT_SS(object):
         model.load_weights(weights)
         print(test_images_path)
         for each in os.listdir(test_images_path):
-            print('case: ', each)
+            print('case: ', each);
+            if each.startswith('.'):
+               continue            
             testImages, testLabels, affine = self.loadTestData(test_images_path,test_labels_path, each)  
             predImage = model.predict(testImages, batch_size=8, verbose=1)       
             print('-'*30)
@@ -598,7 +600,9 @@ class Unet_CT_SS(object):
         from datetime import datetime
         startTime = datetime.now()
         for each in os.listdir(test_images_path):
-            print('case: ', each)
+            print('case: ', each);
+            if each.startswith('.'):
+               continue            
             startTime = datetime.now()
             testImages, otestLabels,affine = self.load3DtestData(test_images_path,test_labels_path, each)
             oNumImgs=testImages.shape[2]
@@ -630,7 +634,7 @@ class Unet_CT_SS(object):
             print('test labels shape: ', predImage.shape)
             print(datetime.now() - startTime)
             
-            saveFolder = os.path.join(self.save_folder,self.pred_folder)
+            saveFolder = os.path.join(self.save_folder)
             
             if self.testLabelFlag:
                 self.computeTestMetrics(otestLabels,predImage) 
